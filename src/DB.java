@@ -6,7 +6,7 @@ public class DB {
     private Statement statement;
     private Connection connection;
 
-    public DB(String dbName) throws ClassNotFoundException , SQLException{
+    public DB(String dbName) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         String dbURL ="jdbc:mysql://127.0.0.1:3306/" +dbName;
         this.connection= DriverManager.getConnection(dbURL , "root" ,"");

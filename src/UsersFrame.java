@@ -1,50 +1,67 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UsersFrame extends JFrame {
+public class UsersFrame extends JInternalFrame {
 
     private DefaultTableModel dtm;
 
     private JTextField tfName;
     private JTextField tfEmail;
     private JTextField tfMobile;
+    private JComboBox<String> roleComboBox;
 
     private  boolean editAble = true;
+
     public  UsersFrame(){
+        setIconifiable(true);
+        setClosable(true);
+        setMaximizable(true);
+        setResizable(true);
         setTitle("Manage Users");
-        setBounds(250,150,700,500);
+        setBounds(150,20,700,500);
         String [] colsName ={"id", "name", "email", "mobile", "role", "created at", "created by"};
         String []  dbColNames ={"id", "name", "email", "mobile", "role", "created_at", "created_by"};
 
         dtm = new DefaultTableModel(null ,colsName);
         fillUserTable();
         JTable table = new JTable(dtm);
+
+        String arrRole [] ={"admin" ,"editor","user"};
+        JComboBox<String> roleCB = new JComboBox<>(arrRole);
+        TableColumn columnRole = table.getColumnModel().getColumn(4);
+        columnRole.setCellEditor(new DefaultCellEditor(roleCB));
+
         JScrollPane scrollPane = new JScrollPane(table);
         getContentPane().add(scrollPane);
 
         JLabel labelName = new JLabel("Name");
         JLabel labelEmail = new JLabel("Email");
         JLabel labelMobile = new JLabel("Mobile");
+        JLabel labelRole= new JLabel("Role");
         JLabel label = new JLabel("");
         tfName= new JTextField();
         tfEmail= new JTextField();
         tfMobile= new JTextField();
+        roleComboBox=new JComboBox<>(arrRole);
 
         JButton  btnAdd = new JButton("Add User");
         JButton  btnDelete = new JButton("Delete User");
 //
-        JPanel panel = new JPanel( new GridLayout(2,4 ,2,2));
+        JPanel panel = new JPanel( new GridLayout(2,5 ,2,2));
         panel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
         panel.add(labelName);
         panel.add(labelEmail);
         panel.add(labelMobile);
+        panel.add(labelRole);
         panel.add(label);
         panel.add(tfName);
         panel.add(tfEmail);
         panel.add(tfMobile);
+        panel.add(roleComboBox);
         panel.add(btnAdd);
 
         getContentPane().add(panel , BorderLayout.NORTH);
@@ -57,7 +74,8 @@ public class UsersFrame extends JFrame {
             try {
                 DB db = new DB("ecommerce");
                 // insert into users(name , email ,mobile) values('','','')
-                db.getStatement().executeUpdate("insert into users(name , email ,mobile) values('"+tfName.getText()+"','"+ tfEmail.getText()+"','"+tfMobile.getText()+"')");
+                db.getStatement().executeUpdate("insert into users(name , email ,mobile ,role) values('"+tfName.getText()+"','"
+                        + tfEmail.getText()+"','"+tfMobile.getText()+"' ,'"+roleComboBox.getSelectedItem()+"')");
                 db.close();
                 fillUserTable();
             } catch (ClassNotFoundException ex) {

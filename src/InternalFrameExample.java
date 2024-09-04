@@ -25,11 +25,8 @@ public class InternalFrameExample extends JFrame {
         fileMenu.add(newItem);
 
         // Add an action listener to create a new internal frame when "New" is clicked
-        newItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                createInternalFrame();
-            }
+        newItem.addActionListener(e->{
+            createInternalFrame();
         });
 
         // Set the size of the main window

@@ -5,10 +5,15 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class Main  extends  JFrame{
+    private JDesktopPane desktopPane;
+
     public Main(){
         setTitle("Doaa Market");
+        desktopPane = new JDesktopPane();
+        getContentPane().add(desktopPane);
         setBounds(100,100,1200,600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         JMenuBar menuBar = new JMenuBar();
         setJMenuBar(menuBar);
         JMenu menueManage = new JMenu("Manage");
@@ -69,6 +74,14 @@ public class Main  extends  JFrame{
         menuItemUsers.addActionListener(e->{
             UsersFrame fUsers = new UsersFrame();
             fUsers.setVisible(true);
+            desktopPane.add(fUsers);
+
+        });
+
+        menuItemProducts.addActionListener(e->{
+            ProductFrame productFrame= new ProductFrame();
+            productFrame.setVisible(true);
+            desktopPane.add(productFrame);
         });
 
     }

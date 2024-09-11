@@ -6,11 +6,15 @@ import java.sql.Statement;
 
 public class Main  extends  JFrame{
     private JDesktopPane desktopPane;
+    private User loginUser;
 
-    public Main(){
-        setTitle("Doaa Market");
+    public Main(User loginUser){
+        this.loginUser = loginUser;
+
+        setTitle("Welcome " + loginUser.getName());
         desktopPane = new JDesktopPane();
         getContentPane().add(desktopPane);
+
         setBounds(100,100,1200,600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -87,7 +91,11 @@ public class Main  extends  JFrame{
     }
 
 
+    public User getLoginUser() {
+        return loginUser;
+    }
 
-
-
+    public void setLoginUser(User loginUser) {
+        this.loginUser = loginUser;
+    }
 }

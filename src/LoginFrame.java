@@ -1,5 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Date;
 
 public class LoginFrame extends JFrame {
     public  LoginFrame(){
@@ -34,11 +37,45 @@ public class LoginFrame extends JFrame {
         c.fill = GridBagConstraints.HORIZONTAL;
         add(buttonLogin , c);
 
+        JLabel labelMessage = new JLabel(); labelMessage.setForeground(Color.RED);
+        c.gridx = 1;c.gridy = 3;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        add(labelMessage , c);
         ////////////////////////////////
         buttonLogin.addActionListener(e->{
             // check email and password
-            new Main().setVisible(true);
-            this.setVisible(false);
+
+            String email = textFieldEmail.getText().trim();
+            String pw = textFieldPW.getText();
+
+            try {
+                DB db = new DB("ecommerce");
+                ResultSet resultSet = db.getStatement().executeQuery("select * from users where email='"+email+"' and password='"+pw+"'");
+                if (resultSet.next()){
+//                    id, name, email, password, mobile, role, created_at, created_by
+                    User loginUser = new User(email , pw);
+                    loginUser.setId(resultSet.getInt("id"));
+                    loginUser.setName(resultSet.getString("name"));
+                    loginUser.setMobile(resultSet.getString("mobile"));
+                    loginUser.setRole(resultSet.getString("role"));
+                    loginUser.setCreatedBy(resultSet.getInt("created_by"));
+                    loginUser.setCreatedAt((Date) resultSet.getObject("created_at"));
+
+                    new Main(loginUser).setVisible(true);
+                    this.setVisible(false);
+
+                }else{
+                    labelMessage.setText("Invalid email or password.");
+                }
+                db.close();
+
+            } catch (ClassNotFoundException ex) {
+                throw new RuntimeException(ex);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+
+
         });
     }
 

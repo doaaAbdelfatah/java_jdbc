@@ -16,10 +16,10 @@ public class LoginFrame extends JFrame {
         JLabel labelEmail = new JLabel("Email");
         JLabel labelPw = new JLabel("Password");
 
-        JTextField textFieldEmail = new JTextField();
+        JTextField textFieldEmail = new JTextField("dode@gmail.com");
         textFieldEmail.setPreferredSize(new Dimension(250,30));
 
-        JPasswordField textFieldPW = new JPasswordField();
+        JPasswordField textFieldPW = new JPasswordField("654321");
         textFieldPW.setPreferredSize(new Dimension(250,30));
         JButton buttonLogin = new JButton("Login");
 
@@ -61,7 +61,7 @@ public class LoginFrame extends JFrame {
                     loginUser.setCreatedBy(resultSet.getInt("created_by"));
                     loginUser.setCreatedAt((Date) resultSet.getObject("created_at"));
 
-                    new Main(loginUser).setVisible(true);
+                    new Main(loginUser ,this).setVisible(true);
                     this.setVisible(false);
 
                 }else{

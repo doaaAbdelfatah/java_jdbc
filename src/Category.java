@@ -5,6 +5,8 @@ public class Category {
     private  int id;
     private String name;
 
+    private  int category_id;
+
     public Category(int id, String name) {
         this.id = id;
         this.name = name;
@@ -35,6 +37,7 @@ public class Category {
         try {
             DB db = new DB("ecommerce");
             ResultSet resultSet= db.getStatement().executeQuery("select id ,name from categories");
+            categories.add(null);
             while (resultSet.next()){
                 Category c = new Category();
                 c.id = resultSet.getInt("id");
@@ -51,5 +54,13 @@ public class Category {
     @Override
     public String toString() {
         return  name ;
+    }
+
+    public int getCategory_id() {
+        return category_id;
+    }
+
+    public void setCategory_id(int category_id) {
+        this.category_id = category_id;
     }
 }

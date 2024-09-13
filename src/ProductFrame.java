@@ -7,7 +7,7 @@ public class ProductFrame extends JInternalFrame {
     private JColorChooser colorChooser ;
     private JComboBox<Category> comboBoxCategory ;
 
-    public ProductFrame(){
+    public ProductFrame(User loginUser){
         setTitle("Manage Products");
         setIconifiable(true);
         setClosable(true);
@@ -84,9 +84,9 @@ public class ProductFrame extends JInternalFrame {
            int catID = category.getId();
             try {
                 DB db = new DB("ecommerce");
-                db.getStatement().executeUpdate("insert into products ( name, price, qty, image, brand, color, size, category_id) values( '"
+                db.getStatement().executeUpdate("insert into products ( name, price, qty, image, brand, color, size, category_id , user_id) values( '"
                         + tfName.getText()+ "', '"+tfPrice.getText()+"', "+tfQty.getText()+", '"+tfImage.getText()
-                        +"', '"+ tfBrand.getText()+"', '' , '"+tfSize.getText()+"', "+catID+")");
+                        +"', '"+ tfBrand.getText()+"', '' , '"+tfSize.getText()+"', "+catID+" , "+ loginUser.getId()+")");
                 db.close();
 
             } catch (ClassNotFoundException ex) {

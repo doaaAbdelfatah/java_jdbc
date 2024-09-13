@@ -8,7 +8,7 @@ public class Main  extends  JFrame{
     private JDesktopPane desktopPane;
     private User loginUser;
 
-    public Main(User loginUser){
+    public Main(User loginUser , LoginFrame loginFrame){
         this.loginUser = loginUser;
 
         setTitle("Welcome " + loginUser.getName());
@@ -25,16 +25,22 @@ public class Main  extends  JFrame{
         menuBar.add(menueManage);
         menuBar.add(menueOders);
         JMenuItem menuItemUsers = new JMenuItem("Users");
+        JMenuItem menuItemMCategories = new JMenuItem("Manage Category");
         JMenuItem menuItemCategories = new JMenuItem("Add Category");
         JMenuItem menuItemShowCategories = new JMenuItem("Show All Category");
         JMenuItem menuItemProducts = new JMenuItem("Products");
+        JMenuItem menuItemLogout = new JMenuItem("LogOut");
 
         menueManage.add(menuItemUsers);
         menueManage.addSeparator();
+
+        menueManage.add(menuItemMCategories);
         menueManage.add(menuItemCategories);
         menueManage.add(menuItemShowCategories);
         menueManage.addSeparator();
         menueManage.add(menuItemProducts);
+        menueManage.addSeparator();
+        menueManage.add(menuItemLogout);
 
         JMenuItem menuItemCustomers = new JMenuItem("Customers");
         JMenuItem menuItemOrders = new JMenuItem("Orders");
@@ -52,6 +58,12 @@ public class Main  extends  JFrame{
                    System.out.println("Exception : " + ex.getMessage());
                }
            }
+        });
+
+        menuItemMCategories.addActionListener(e->{
+            CategoryFrame categoryFrame = new CategoryFrame();
+            categoryFrame.setVisible(true);
+            desktopPane.add(categoryFrame);
         });
 
         // show categories
@@ -76,19 +88,23 @@ public class Main  extends  JFrame{
         // ////////////////////
 
         menuItemUsers.addActionListener(e->{
-            UsersFrame fUsers = new UsersFrame();
+            UsersFrame fUsers = new UsersFrame(loginUser);
             fUsers.setVisible(true);
             desktopPane.add(fUsers);
 
         });
 
         menuItemProducts.addActionListener(e->{
-            ProductFrame productFrame= new ProductFrame();
+            ProductFrame productFrame= new ProductFrame(loginUser);
             productFrame.setVisible(true);
             desktopPane.add(productFrame);
         });
-
+        menuItemLogout.addActionListener(e->{
+            this.setVisible(false);
+            loginFrame.setVisible(true);
+        });
     }
+
 
 
     public User getLoginUser() {

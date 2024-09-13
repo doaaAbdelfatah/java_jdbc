@@ -16,7 +16,8 @@ public class UsersFrame extends JInternalFrame {
 
     private  boolean editAble = true;
 
-    public  UsersFrame(){
+    public  UsersFrame(User loginUser){
+
         setIconifiable(true);
         setClosable(true);
         setMaximizable(true);
@@ -74,8 +75,8 @@ public class UsersFrame extends JInternalFrame {
             try {
                 DB db = new DB("ecommerce");
                 // insert into users(name , email ,mobile) values('','','')
-                db.getStatement().executeUpdate("insert into users(name , email ,mobile ,role) values('"+tfName.getText()+"','"
-                        + tfEmail.getText()+"','"+tfMobile.getText()+"' ,'"+roleComboBox.getSelectedItem()+"')");
+                db.getStatement().executeUpdate("insert into users(name , email ,mobile ,role ,created_by) values('"+tfName.getText()+"','"
+                        + tfEmail.getText()+"','"+tfMobile.getText()+"' ,'"+roleComboBox.getSelectedItem()+"' , '"+loginUser.getId()+"')");
                 db.close();
                 fillUserTable();
             } catch (ClassNotFoundException ex) {
@@ -129,7 +130,7 @@ public class UsersFrame extends JInternalFrame {
         DB db = null;
         try {
             db = new DB("ecommerce");
-            ResultSet resultSet = db.getStatement().executeQuery("select id, name, email, mobile, role, created_at, created_by from users");
+            ResultSet resultSet = db.getStatement().executeQuery("select u.id, u.name, u.email, u.mobile, u.role, u.created_at, u.created_by , c.name creator_name from users u left join users c on (u.created_by = c.id)");
             while (resultSet.next()){
                 String [] row = {
                         resultSet.getString("id") ,
@@ -138,7 +139,7 @@ public class UsersFrame extends JInternalFrame {
                         resultSet.getString("mobile") ,
                         resultSet.getString("role") ,
                         resultSet.getString("created_at") ,
-                        resultSet.getString("created_by")
+                        resultSet.getString("creator_name")
                 };
                 dtm.addRow(row);
             }

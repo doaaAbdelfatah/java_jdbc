@@ -59,6 +59,11 @@ public class Main  extends  JFrame{
                }
            }
         });
+        menuItemOrders.addActionListener(e->{
+            OrderFrame orderFrame= new OrderFrame();
+            orderFrame.setVisible(true);
+            desktopPane.add(orderFrame);
+        });
 
         menuItemMCategories.addActionListener(e->{
             CategoryFrame categoryFrame = new CategoryFrame();

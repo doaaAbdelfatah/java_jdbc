@@ -1,7 +1,7 @@
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-public class Category {
+public class Category { // Entity Class " Class bind DB Table"
     private  int id;
     private String name;
 
@@ -51,6 +51,42 @@ public class Category {
         return  categories;
     }
 
+    static  ArrayList<Category> listMainCategories(){
+        ArrayList<Category> categories= new ArrayList<>();
+        try {
+            DB db = new DB("ecommerce");
+            ResultSet resultSet= db.getStatement().executeQuery("select id ,name from categories where category_id is null");
+            categories.add(null);
+            while (resultSet.next()){
+                Category c = new Category();
+                c.id = resultSet.getInt("id");
+                c.name = resultSet.getString("name");
+                categories.add(c);
+            }
+            db.close();
+        } catch (Exception ex) {
+            System.out.println("Exception : " + ex.getMessage());
+        }
+        return  categories;
+    }
+    static  ArrayList<Category> listSubCategories(int mainCategoryID){
+        ArrayList<Category> categories= new ArrayList<>();
+        try {
+            DB db = new DB("ecommerce");
+            ResultSet resultSet= db.getStatement().executeQuery("select id ,name from categories where category_id =" + mainCategoryID);
+            categories.add(null);
+            while (resultSet.next()){
+                Category c = new Category();
+                c.id = resultSet.getInt("id");
+                c.name = resultSet.getString("name");
+                categories.add(c);
+            }
+            db.close();
+        } catch (Exception ex) {
+            System.out.println("Exception : " + ex.getMessage());
+        }
+        return  categories;
+    }
     @Override
     public String toString() {
         return  name ;

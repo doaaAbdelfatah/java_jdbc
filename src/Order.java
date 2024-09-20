@@ -1,3 +1,5 @@
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
@@ -38,9 +40,14 @@ public class Order {
         try {
             DB db = new DB("ecommerce");
 
-            String qry ="insert into orders( id , order_time) values("+id+" , '"+date+"')";
-
-            db.getStatement().executeUpdate(qry);
+            Connection cn = db.getConnection();
+            PreparedStatement preparedStatement= cn.prepareStatement("insert into orders( id , order_time) values(?,?)");
+            preparedStatement.setInt(1,id);
+            preparedStatement.setString(2,date);
+            preparedStatement.executeUpdate();
+//            String qry ="insert into orders( id , order_time) values("+id+" , '"+date+"')";
+//
+//            db.getStatement().executeUpdate(qry);
             db.close();
 
         } catch (ClassNotFoundException ex) {

@@ -1,3 +1,5 @@
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class OrderDetail {
@@ -64,9 +66,18 @@ public class OrderDetail {
         try {
             DB db = new DB("ecommerce");
 
-            String qry ="insert into order_details( order_id, product_id, qty, unit_price, tax, total_price_with_tax) values("+orderId+" , "+productId
-                    +","+qty+" ,"+unitPrice+","+tax+" ,"+total+")";
-            db.getStatement().executeUpdate(qry);
+//            String qry ="insert into order_details( order_id, product_id, qty, unit_price, tax, total_price_with_tax) values("+orderId+" , "+productId
+//                    +","+qty+" ,"+unitPrice+","+tax+" ,"+total+")";
+//            db.getStatement().executeUpdate(qry);
+
+            PreparedStatement ps = db.getConnection().prepareStatement("insert into order_details( order_id, product_id, qty, unit_price, tax, total_price_with_tax) values(?,?,?,?,?,?)");
+            ps.setInt(1,orderId);
+            ps.setString(2,productId);
+            ps.setString(3,qty);
+            ps.setString(4,unitPrice);
+            ps.setString(5,tax);
+            ps.setString(6,total);
+            ps.executeUpdate();
             db.close();
 
         } catch (ClassNotFoundException ex) {

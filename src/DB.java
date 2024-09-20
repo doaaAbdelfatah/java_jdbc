@@ -15,9 +15,14 @@ public class DB {
     public Statement getStatement() {
         return statement;
     }
+
+
     public void close() throws SQLException {
         this.statement.close();
         this.connection.close();
     }
 
+    public Connection getConnection() {
+        return connection;
+    }
 }

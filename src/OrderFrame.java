@@ -10,6 +10,7 @@ public class OrderFrame extends JInternalFrame {
     private JComboBox<Category> comboBoxCategory;
     private JComboBox comboBoxProducts;
     private JLabel labelTotal;
+    private JButton buttonSave;
 
     private DefaultTableModel dtm ;
 
@@ -24,7 +25,7 @@ public class OrderFrame extends JInternalFrame {
 
         setResizable(true);
 
-        String columns[] ={"id" ,"name" ,"qty" ,"price" ,"vat" , "total"};
+        String columns[] ={"id" ,"name" ,"qty" ,"price" ,"vat (19%)" , "total"};
         dtm = new DefaultTableModel(null ,columns); // محتوي الجدول الداخلي
         JTable tableProducts = new JTable(dtm);
         JScrollPane scrollPane = new JScrollPane(tableProducts);
@@ -68,7 +69,7 @@ public class OrderFrame extends JInternalFrame {
                     product.getName(),
                     qty+"",
                     product.getPrice() +"",
-                    product.getPrice() * 0.19  + "(19%)",
+                    product.getPrice() * 0.19  +"",
                     rowTotal + ""
             };
             dtm.addRow(row);
@@ -76,8 +77,23 @@ public class OrderFrame extends JInternalFrame {
             labelTotal.setText((s + rowTotal )+"");
 
         });
+
+        buttonSave.addActionListener(e->{
+//            {"id" ,"name" ,"qty" ,"price" ,"vat" , "total"}
+            int orderID = Order.getLastOrderId();
+            Order.addOrder(orderID,"2024-09-20 11:07");
+            for (int i = 0; i < dtm.getRowCount() ;i++) {
+                String prodId = (String) dtm.getValueAt(i,0);
+                String qty = (String) dtm.getValueAt(i,2);
+                String price = (String) dtm.getValueAt(i,3);
+                String vat = (String) dtm.getValueAt(i,4);
+                String total = (String) dtm.getValueAt(i,5);
+                OrderDetail.addOrderDetail(orderID ,prodId ,qty,price,vat,total );
+            }
+
+
+        });
+
+
     }
-
-
-
 }

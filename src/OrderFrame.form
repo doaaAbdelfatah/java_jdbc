@@ -90,6 +90,15 @@
               <text value="0"/>
             </properties>
           </component>
+          <hspacer id="4e573">
+            <constraints/>
+          </hspacer>
+          <component id="ba51f" class="javax.swing.JButton" binding="buttonSave">
+            <constraints/>
+            <properties>
+              <text value="Save"/>
+            </properties>
+          </component>
         </children>
       </grid>
     </children>
